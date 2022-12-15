@@ -14,16 +14,17 @@ export default class LocoGsap
         gsap.registerPlugin(ScrollTrigger)
         
         let locoScroll
+        const wrapper = document.querySelector('.main')
         if (window.innerWidth > 480) 
         {
             locoScroll = new LocomotiveScroll({
-                el: document.querySelector('.main'),
+                el: wrapper,
                 smooth: true,
                 multiplier: 1.0,
                 lerp: 0.15
             });
             locoScroll.on('scroll', ScrollTrigger.update);
-            ScrollTrigger.scrollerProxy('.main', {
+            ScrollTrigger.scrollerProxy(wrapper, {
                 scrollTop(value) {
                     return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
                 },
@@ -35,28 +36,20 @@ export default class LocoGsap
                         height: window.innerHeight
                     };
                 },
-                pinType: document.querySelector('.main').style.transform ? 'transform' : 'fixed'
+                pinType: wrapper.style.transform ? 'transform' : 'fixed'
             });
         }
         ScrollTrigger.defaults({
-            scroller: '.main'
+            scroller: wrapper
         })
-        
-        const init = () => 
-        {
-            /**
-             * GSAP no blick
-             */
-            gsap.set('main', { autoAlpha: 1 })
-        
-        }
         
         window.addEventListener('load', () => 
         {
-            init()
             ScrollTrigger.addEventListener('refresh', () => locoScroll.update())
             locoScroll.update()
         })
+
+        new ResizeObserver(() => locoScroll.update()).observe(wrapper);
         
         
         $(window).on('resize', function (e) {

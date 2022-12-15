@@ -25,7 +25,9 @@
     "vite-plugin-glsl": "^0.4.0"
   },
   "dependencies": {
+    "@studio-freight/lenis": "^0.2.26",
     "gsap": "file:gsap-bonus.tgz",
+    "imagesloaded": "^5.0.0",
     "locomotive-scroll": "^4.1.4",
     "raw-loader": "^4.0.2",
     "three": "^0.144.0",
